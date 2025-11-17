@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .progress-step {
+            margin: 0 10px;
+            color: #666;
+        }
+        
+        .progress-step.active {
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .summary-section {
+            flex: 0 0 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .payment-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .payment-table input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 5px;
+        }
+        
+        .order-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .order-button:hover {
+            background-color: #333;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .price-details {
+            margin-bottom: 20px;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .summary-section {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Shop</h1>
+            <div class="progress-bar">
+                <span class="progress-step">Cart</span>
+                <span>&gt;</span>
+                <span class="progress-step">Information</span>
+                <span>&gt;</span>
+                <span class="progress-step">Shipping</span>
+                <span>&gt;</span>
+                <span class="progress-step active">Payment</span>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2>Shipping address</h2>
+                <form id="payment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip-code">Zip Code</label>
+                            <input type="text" id="zip-code" name="zip-code" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <h3>Payment</h3>
+                    
+                    <div class="form-group">
+                        <label for="card-number">Cart Number</label>
+                        <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    
+                    <table class="payment-table">
+                        <tr>
+                            <td>
+                                <input type="text" placeholder="mm" name="exp-month" maxlength="2" required>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="yyyy" name="exp-year" maxlength="4" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" placeholder="cvv" name="cvv" maxlength="3" required>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
+                    <button type="submit" class="order-button">ORDER NOW</button>
+                </form>
+            </div>
+            
+            <div class="summary-section">
+                <h2>Order Summary</h2>
+                <div class="product-image">
+                    <span>Product Image</span>
+                </div>
+                <div class="price-details">
+                    <div class="price-row">
+                        <span>Amount to be paid:</span>
+                        <span>$9.97</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Shipping:</span>
+                        <span>FREE</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>TOTAL:</span>
+                        <span>$9.97</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 Order — All rights reserved. Customer Service</p>
+            <div class="footer-links">
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 表单验证
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const expMonth = document.getElementsByName('exp-month')[0].value;
+            const expYear = document.getElementsByName('exp-year')[0].value;
+            const cvv = document.getElementsByName('cvv')[0].value;
+            
+            // 简单的信用卡号验证
+            if (!/^\d{16}$/.test(cardNumber)) {
+                alert('Please enter a valid 16-digit card number');
+                return;
+            }
+            
+            // 有效期验证
+            if (!/^\d{2}$/.test(expMonth) || parseInt(expMonth) < 1 || parseInt(expMonth) > 12) {
+                alert('Please enter a valid month (01-12)');
+                return;
+            }
+            
+            if (!/^\d{4}$/.test(expYear) || parseInt(expYear) < new Date().getFullYear()) {
+                alert('Please enter a valid year');
+                return;
+            }
+            
+            // CVV验证
+            if (!/^\d{3}$/.test(cvv)) {
+                alert('Please enter a valid 3-digit CVV');
+                return;
+            }
+            
+            // 如果验证通过，这里可以调用支付API
+            alert('Order placed successfully! Payment processing...');
+            
+            // 在实际应用中，这里应该调用支付网关API
+            // processPayment(cardNumber, expMonth, expYear, cvv);
+        });
+        
+        // 格式化信用卡号输入
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            if (value.length > 0) {
+                value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
